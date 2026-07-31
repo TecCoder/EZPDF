@@ -20,6 +20,7 @@ struct ReaderView: View {
     @State private var activeSearchIndex = 0
     @State private var pdfViewReference: PDFView?
     @State private var currentReadingLocation: PDFReadingLocation?
+    private let locationCaptureTimer = Timer.publish(every: 0.4, on: .main, in: .common).autoconnect()
 
     init(document: LibraryDocument) {
         _document = State(initialValue: document)
@@ -34,7 +35,7 @@ struct ReaderView: View {
             if let pdfDocument {
                 PDFKitView(
                     document: pdfDocument,
-                    initialPageIndex: document.lastPageIndex,
+                    initialPageIndex: currentReadingLocation?.pageIndex ?? currentPage,
                     initialPagePoint: document.lastPagePoint,
                     initialScaleFactor: document.lastScale,
                     currentPageIndex: $currentPage,
@@ -108,6 +109,9 @@ struct ReaderView: View {
         .onChange(of: progressStore.keepScreenAwake) { newValue in
             UIApplication.shared.isIdleTimerDisabled = newValue
         }
+        .onReceive(locationCaptureTimer) { _ in
+            captureCurrentReadingLocation(saveToStore: false)
+        }
     }
 
     private var bottomBar: some View {
@@ -134,8 +138,8 @@ struct ReaderView: View {
                 Spacer()
 
                 AppearancePanel(
-                    appearance: $progressStore.appearance,
-                    intensity: $progressStore.softNightIntensity,
+                    appearance: appearanceBinding,
+                    intensity: intensityBinding,
                     keepScreenAwake: $progressStore.keepScreenAwake
                 )
             }
@@ -143,6 +147,26 @@ struct ReaderView: View {
             .padding(.vertical, 12)
             .background(.black.opacity(0.86))
         }
+    }
+
+    private var appearanceBinding: Binding<ReadingAppearance> {
+        Binding(
+            get: { progressStore.appearance },
+            set: { newValue in
+                captureCurrentReadingLocation(saveToStore: false)
+                progressStore.appearance = newValue
+            }
+        )
+    }
+
+    private var intensityBinding: Binding<Double> {
+        Binding(
+            get: { progressStore.softNightIntensity },
+            set: { newValue in
+                captureCurrentReadingLocation(saveToStore: false)
+                progressStore.softNightIntensity = newValue
+            }
+        )
     }
 
     private var searchSheet: some View {
@@ -231,41 +255,50 @@ struct ReaderView: View {
     }
 
     private func persistCurrentReadingLocation() {
-        if let currentReadingLocation {
-            document.lastPageIndex = currentReadingLocation.pageIndex
-            document.lastPagePointX = Double(currentReadingLocation.point.x)
-            document.lastPagePointY = Double(currentReadingLocation.point.y)
-            document.lastScaleFactor = Double(currentReadingLocation.scaleFactor)
-            libraryStore.markOpened(
-                document,
-                pageIndex: currentReadingLocation.pageIndex,
-                pagePointX: document.lastPagePointX,
-                pagePointY: document.lastPagePointY,
-                scaleFactor: document.lastScaleFactor
-            )
-            return
-        }
+        captureCurrentReadingLocation(saveToStore: false)
 
-        guard let pdfView = pdfViewReference,
-              let destination = pdfView.currentDestination,
-              let page = destination.page,
-              let pdfDocument = pdfView.document else {
+        guard let currentReadingLocation else {
             libraryStore.markOpened(document, pageIndex: currentPage)
             return
         }
 
-        let pageIndex = max(0, pdfDocument.index(for: page))
-        document.lastPageIndex = pageIndex
-        document.lastPagePointX = Double(destination.point.x)
-        document.lastPagePointY = Double(destination.point.y)
-        document.lastScaleFactor = Double(pdfView.scaleFactor)
         libraryStore.markOpened(
             document,
-            pageIndex: pageIndex,
+            pageIndex: currentReadingLocation.pageIndex,
             pagePointX: document.lastPagePointX,
             pagePointY: document.lastPagePointY,
             scaleFactor: document.lastScaleFactor
         )
+    }
+
+    private func captureCurrentReadingLocation(saveToStore: Bool) {
+        guard let pdfView = pdfViewReference,
+              let destination = pdfView.currentDestination,
+              let page = destination.page,
+              let pdfDocument = pdfView.document else { return }
+
+        let pageIndex = max(0, pdfDocument.index(for: page))
+        let location = PDFReadingLocation(
+            pageIndex: pageIndex,
+            point: destination.point,
+            scaleFactor: pdfView.scaleFactor
+        )
+        currentPage = pageIndex
+        currentReadingLocation = location
+        document.lastPageIndex = pageIndex
+        document.lastPagePointX = Double(location.point.x)
+        document.lastPagePointY = Double(location.point.y)
+        document.lastScaleFactor = Double(location.scaleFactor)
+
+        if saveToStore {
+            libraryStore.markOpened(
+                document,
+                pageIndex: pageIndex,
+                pagePointX: document.lastPagePointX,
+                pagePointY: document.lastPagePointY,
+                scaleFactor: document.lastScaleFactor
+            )
+        }
     }
 }
 
