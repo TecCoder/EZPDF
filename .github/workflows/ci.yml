@@ -20,15 +20,16 @@ jobs:
       - name: Build and test
         run: |
           set -o pipefail
-          DESTINATION="$(xcrun simctl list devices available | awk -F '[()]' '/iPad/ && /Booted|Shutdown/ { print $1; exit }' | sed 's/[[:space:]]*$//')"
-          if [ -z "$DESTINATION" ]; then
-            DESTINATION="iPad Pro 11-inch (M4)"
+          DESTINATION_ID="$(xcrun simctl list devices available -j | python3 -c 'import json, sys; data = json.load(sys.stdin); ids = [device["udid"] for runtime, devices in data["devices"].items() if "SimRuntime.iOS" in runtime for device in devices if device.get("isAvailable") and device.get("name", "").startswith("iPad")]; print(ids[0] if ids else "")')"
+          if [ -z "$DESTINATION_ID" ]; then
+            echo "No available iPad simulator found."
+            exit 1
           fi
           xcodebuild \
             -project NightPDF.xcodeproj \
             -scheme NightPDF \
             -sdk iphonesimulator \
-            -destination "platform=iOS Simulator,name=${DESTINATION}" \
+            -destination "platform=iOS Simulator,id=${DESTINATION_ID}" \
             CODE_SIGNING_ALLOWED=NO \
             clean test
 
@@ -40,4 +41,3 @@ jobs:
           path: |
             ~/Library/Developer/Xcode/DerivedData/**/Logs/Test/*.xcresult
           if-no-files-found: ignore
-
