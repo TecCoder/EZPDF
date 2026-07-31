@@ -30,7 +30,7 @@ struct LibraryView: View {
             .fileImporter(isPresented: $importerPresented, allowedContentTypes: [.pdf], allowsMultipleSelection: false) { result in
                 handleImport(result)
             }
-            .navigationDestination(item: $selectedDocument) { document in
+            .fullScreenCover(item: $selectedDocument) { document in
                 ReaderView(document: document)
                     .environmentObject(libraryStore)
                     .environmentObject(progressStore)
@@ -96,4 +96,3 @@ struct LibraryView: View {
         }
     }
 }
-

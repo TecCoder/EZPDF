@@ -84,11 +84,11 @@ struct ReaderView: View {
             libraryStore.markOpened(document, pageIndex: currentPage)
             UIApplication.shared.isIdleTimerDisabled = false
         }
-        .onChange(of: currentPage) { _, newValue in
+        .onChange(of: currentPage) { newValue in
             document.lastPageIndex = max(0, newValue)
             libraryStore.markOpened(document, pageIndex: newValue)
         }
-        .onChange(of: progressStore.keepScreenAwake) { _, newValue in
+        .onChange(of: progressStore.keepScreenAwake) { newValue in
             UIApplication.shared.isIdleTimerDisabled = newValue
         }
     }
@@ -213,4 +213,3 @@ struct ReaderView: View {
         pdfView.go(to: selection)
     }
 }
-
