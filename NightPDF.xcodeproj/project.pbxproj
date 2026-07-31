@@ -1,0 +1,188 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A00000000000000000000001 /* NightPDFApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000101 /* NightPDFApp.swift */; };
+		A00000000000000000000002 /* LibraryDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000102 /* LibraryDocument.swift */; };
+		A00000000000000000000003 /* ReadingAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000103 /* ReadingAppearance.swift */; };
+		A00000000000000000000004 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000104 /* AppError.swift */; };
+		A00000000000000000000005 /* DocumentLibraryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000105 /* DocumentLibraryStore.swift */; };
+		A00000000000000000000006 /* ReadingProgressStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000106 /* ReadingProgressStore.swift */; };
+		A00000000000000000000007 /* DocumentImportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000107 /* DocumentImportService.swift */; };
+		A00000000000000000000008 /* PDFNightModeRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000108 /* PDFNightModeRenderer.swift */; };
+		A00000000000000000000009 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000109 /* LibraryView.swift */; };
+		A0000000000000000000000A /* ReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000010A /* ReaderView.swift */; };
+		A0000000000000000000000B /* PDFKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000010B /* PDFKitView.swift */; };
+		A0000000000000000000000C /* ReaderToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000010C /* ReaderToolbar.swift */; };
+		A0000000000000000000000D /* AppearancePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000010D /* AppearancePanel.swift */; };
+		A0000000000000000000000E /* DocumentRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000010E /* DocumentRow.swift */; };
+		A0000000000000000000000F /* NightPDFTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000010F /* NightPDFTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A00000000000000000000200 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A00000000000000000000000 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A00000000000000000000300;
+			remoteInfo = NightPDF;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A00000000000000000000100 /* NightPDF.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NightPDF.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A00000000000000000000101 /* NightPDFApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App/NightPDFApp.swift; sourceTree = "<group>"; };
+		A00000000000000000000102 /* LibraryDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/LibraryDocument.swift; sourceTree = "<group>"; };
+		A00000000000000000000103 /* ReadingAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models/ReadingAppearance.swift; sourceTree = "<group>"; };
+		A00000000000000000000104 /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities/AppError.swift; sourceTree = "<group>"; };
+		A00000000000000000000105 /* DocumentLibraryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/DocumentLibraryStore.swift; sourceTree = "<group>"; };
+		A00000000000000000000106 /* ReadingProgressStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/ReadingProgressStore.swift; sourceTree = "<group>"; };
+		A00000000000000000000107 /* DocumentImportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/DocumentImportService.swift; sourceTree = "<group>"; };
+		A00000000000000000000108 /* PDFNightModeRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/PDFNightModeRenderer.swift; sourceTree = "<group>"; };
+		A00000000000000000000109 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/LibraryView.swift; sourceTree = "<group>"; };
+		A0000000000000000000010A /* ReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/ReaderView.swift; sourceTree = "<group>"; };
+		A0000000000000000000010B /* PDFKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/PDFKitView.swift; sourceTree = "<group>"; };
+		A0000000000000000000010C /* ReaderToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/ReaderToolbar.swift; sourceTree = "<group>"; };
+		A0000000000000000000010D /* AppearancePanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/AppearancePanel.swift; sourceTree = "<group>"; };
+		A0000000000000000000010E /* DocumentRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/DocumentRow.swift; sourceTree = "<group>"; };
+		A0000000000000000000010F /* NightPDFTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightPDFTests.swift; sourceTree = "<group>"; };
+		A00000000000000000000110 /* NightPDFTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NightPDFTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A00000000000000000000302 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		A00000000000000000000312 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A00000000000000000000400 = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000410 /* NightPDF */,
+				A00000000000000000000420 /* NightPDFTests */,
+				A00000000000000000000430 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A00000000000000000000410 /* NightPDF */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000101 /* NightPDFApp.swift */,
+				A00000000000000000000102 /* LibraryDocument.swift */,
+				A00000000000000000000103 /* ReadingAppearance.swift */,
+				A00000000000000000000104 /* AppError.swift */,
+				A00000000000000000000105 /* DocumentLibraryStore.swift */,
+				A00000000000000000000106 /* ReadingProgressStore.swift */,
+				A00000000000000000000107 /* DocumentImportService.swift */,
+				A00000000000000000000108 /* PDFNightModeRenderer.swift */,
+				A00000000000000000000109 /* LibraryView.swift */,
+				A0000000000000000000010A /* ReaderView.swift */,
+				A0000000000000000000010B /* PDFKitView.swift */,
+				A0000000000000000000010C /* ReaderToolbar.swift */,
+				A0000000000000000000010D /* AppearancePanel.swift */,
+				A0000000000000000000010E /* DocumentRow.swift */,
+			);
+			path = NightPDF;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000420 /* NightPDFTests */ = {
+			isa = PBXGroup;
+			children = (A0000000000000000000010F /* NightPDFTests.swift */);
+			path = NightPDFTests;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000430 /* Products */ = {
+			isa = PBXGroup;
+			children = (A00000000000000000000100 /* NightPDF.app */, A00000000000000000000110 /* NightPDFTests.xctest */);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A00000000000000000000300 /* NightPDF */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A00000000000000000000500 /* Build configuration list for PBXNativeTarget "NightPDF" */;
+			buildPhases = (A00000000000000000000301 /* Sources */, A00000000000000000000302 /* Frameworks */, A00000000000000000000303 /* Resources */);
+			buildRules = ();
+			dependencies = ();
+			name = NightPDF;
+			productName = NightPDF;
+			productReference = A00000000000000000000100 /* NightPDF.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A00000000000000000000310 /* NightPDFTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A00000000000000000000510 /* Build configuration list for PBXNativeTarget "NightPDFTests" */;
+			buildPhases = (A00000000000000000000311 /* Sources */, A00000000000000000000312 /* Frameworks */, A00000000000000000000313 /* Resources */);
+			buildRules = ();
+			dependencies = (A00000000000000000000201 /* PBXTargetDependency */);
+			name = NightPDFTests;
+			productName = NightPDFTests;
+			productReference = A00000000000000000000110 /* NightPDFTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A00000000000000000000000 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					A00000000000000000000300 = {CreatedOnToolsVersion = 16.0;};
+					A00000000000000000000310 = {CreatedOnToolsVersion = 16.0; TestTargetID = A00000000000000000000300;};
+				};
+			};
+			buildConfigurationList = A00000000000000000000520 /* Build configuration list for PBXProject "NightPDF" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (en, Base);
+			mainGroup = A00000000000000000000400;
+			productRefGroup = A00000000000000000000430 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (A00000000000000000000300 /* NightPDF */, A00000000000000000000310 /* NightPDFTests */);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A00000000000000000000303 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		A00000000000000000000313 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A00000000000000000000301 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A00000000000000000000001, A00000000000000000000002, A00000000000000000000003, A00000000000000000000004, A00000000000000000000005, A00000000000000000000006, A00000000000000000000007, A00000000000000000000008, A00000000000000000000009, A0000000000000000000000A, A0000000000000000000000B, A0000000000000000000000C, A0000000000000000000000D, A0000000000000000000000E); runOnlyForDeploymentPostprocessing = 0; };
+		A00000000000000000000311 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A0000000000000000000000F); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A00000000000000000000201 /* PBXTargetDependency */ = {isa = PBXTargetDependency; target = A00000000000000000000300 /* NightPDF */; targetProxy = A00000000000000000000200 /* PBXContainerItemProxy */; };
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		A00000000000000000000600 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ANALYZER_NONNULL = YES; CLANG_ENABLE_MODULES = YES; CLANG_ENABLE_OBJC_ARC = YES; CLANG_WARN_DOCUMENTATION_COMMENTS = YES; CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES; CODE_SIGN_STYLE = Automatic; COPY_PHASE_STRIP = NO; DEBUG_INFORMATION_FORMAT = dwarf; ENABLE_STRICT_OBJC_MSGSEND = YES; ENABLE_TESTABILITY = YES; GCC_C_LANGUAGE_STANDARD = gnu17; GCC_DYNAMIC_NO_PIC = NO; GCC_NO_COMMON_BLOCKS = YES; GCC_OPTIMIZATION_LEVEL = 0; GCC_PREPROCESSOR_DEFINITIONS = ("DEBUG=1", "$(inherited)"); GCC_WARN_64_TO_32_BIT_CONVERSION = YES; GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR; GCC_WARN_UNDECLARED_SELECTOR = YES; GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE; IPHONEOS_DEPLOYMENT_TARGET = 16.0; SDKROOT = iphoneos; SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; }; name = Debug; };
+		A00000000000000000000601 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ANALYZER_NONNULL = YES; CLANG_ENABLE_MODULES = YES; CLANG_ENABLE_OBJC_ARC = YES; CLANG_WARN_DOCUMENTATION_COMMENTS = YES; CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES; CODE_SIGN_STYLE = Automatic; COPY_PHASE_STRIP = NO; DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym"; ENABLE_NS_ASSERTIONS = NO; ENABLE_STRICT_OBJC_MSGSEND = YES; GCC_C_LANGUAGE_STANDARD = gnu17; GCC_NO_COMMON_BLOCKS = YES; GCC_WARN_64_TO_32_BIT_CONVERSION = YES; GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR; GCC_WARN_UNDECLARED_SELECTOR = YES; GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE; IPHONEOS_DEPLOYMENT_TARGET = 16.0; SDKROOT = iphoneos; SWIFT_COMPILATION_MODE = wholemodule; SWIFT_OPTIMIZATION_LEVEL = "-O"; VALIDATE_PRODUCT = YES; }; name = Release; };
+		A00000000000000000000610 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_APPICON_NAME = ""; CODE_SIGN_ENTITLEMENTS = ""; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = NightPDF; INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity"; INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"; INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"; MARKETING_VERSION = 0.1.0; PRODUCT_BUNDLE_IDENTIFIER = com.local.NightPDF; PRODUCT_NAME = "$(TARGET_NAME)"; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; SUPPORTS_MACCATALYST = NO; SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Debug; };
+		A00000000000000000000611 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_APPICON_NAME = ""; CODE_SIGN_ENTITLEMENTS = ""; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = NightPDF; INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity"; INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"; INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"; MARKETING_VERSION = 0.1.0; PRODUCT_BUNDLE_IDENTIFIER = com.local.NightPDF; PRODUCT_NAME = "$(TARGET_NAME)"; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; SUPPORTS_MACCATALYST = NO; SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Release; };
+		A00000000000000000000620 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {BUNDLE_LOADER = "$(TEST_HOST)"; CODE_SIGN_STYLE = Automatic; GENERATE_INFOPLIST_FILE = YES; IPHONEOS_DEPLOYMENT_TARGET = 16.0; PRODUCT_BUNDLE_IDENTIFIER = com.local.NightPDFTests; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NightPDF.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/NightPDF"; }; name = Debug; };
+		A00000000000000000000621 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {BUNDLE_LOADER = "$(TEST_HOST)"; CODE_SIGN_STYLE = Automatic; GENERATE_INFOPLIST_FILE = YES; IPHONEOS_DEPLOYMENT_TARGET = 16.0; PRODUCT_BUNDLE_IDENTIFIER = com.local.NightPDFTests; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NightPDF.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/NightPDF"; }; name = Release; };
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A00000000000000000000500 /* Build configuration list for PBXNativeTarget "NightPDF" */ = {isa = XCConfigurationList; buildConfigurations = (A00000000000000000000610, A00000000000000000000611); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		A00000000000000000000510 /* Build configuration list for PBXNativeTarget "NightPDFTests" */ = {isa = XCConfigurationList; buildConfigurations = (A00000000000000000000620, A00000000000000000000621); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		A00000000000000000000520 /* Build configuration list for PBXProject "NightPDF" */ = {isa = XCConfigurationList; buildConfigurations = (A00000000000000000000600, A00000000000000000000601); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+/* End XCConfigurationList section */
+	};
+	rootObject = A00000000000000000000000 /* Project object */;
+}
+

@@ -1,0 +1,56 @@
+name: Build IPA
+
+on:
+  workflow_dispatch:
+
+jobs:
+  archive:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Build archive without signing
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project NightPDF.xcodeproj \
+            -scheme NightPDF \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -archivePath "$PWD/build/NightPDF.xcarchive" \
+            CODE_SIGNING_ALLOWED=NO \
+            SKIP_INSTALL=NO \
+            archive
+
+      - name: Package unsigned IPA and metadata
+        run: |
+          set -euo pipefail
+          mkdir -p NightPDF-build/Payload
+          APP_PATH="build/NightPDF.xcarchive/Products/Applications/NightPDF.app"
+          if [ -d "$APP_PATH" ]; then
+            cp -R "$APP_PATH" NightPDF-build/Payload/
+            (cd NightPDF-build && zip -qry NightPDF.ipa Payload)
+          fi
+          ditto -c -k --keepParent build/NightPDF.xcarchive NightPDF-build/NightPDF.xcarchive.zip
+          {
+            echo "commit=${GITHUB_SHA}"
+            echo "date=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo "xcode=$(xcodebuild -version | tr '\n' ' ')"
+            echo "sdk=$(xcodebuild -showsdks | grep iphoneos | tail -1 | xargs)"
+            echo "tests=run by CI workflow"
+            echo "signing=unsigned; sign on Windows with AltStore Classic or Sideloadly"
+            echo "install=download this artifact, then sign and install locally on the target iPad"
+          } > NightPDF-build/build-info.txt
+          (cd NightPDF-build && shasum -a 256 * > checksums.txt)
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: NightPDF-build
+          path: NightPDF-build
+

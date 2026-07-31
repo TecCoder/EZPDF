@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Show available simulators
+        run: xcrun simctl list devices available
+
+      - name: Build and test
+        run: |
+          set -o pipefail
+          DESTINATION="$(xcrun simctl list devices available | awk -F '[()]' '/iPad/ && /Booted|Shutdown/ { print $1; exit }' | sed 's/[[:space:]]*$//')"
+          if [ -z "$DESTINATION" ]; then
+            DESTINATION="iPad Pro 11-inch (M4)"
+          fi
+          xcodebuild \
+            -project NightPDF.xcodeproj \
+            -scheme NightPDF \
+            -sdk iphonesimulator \
+            -destination "platform=iOS Simulator,name=${DESTINATION}" \
+            CODE_SIGNING_ALLOWED=NO \
+            clean test
+
+      - name: Upload result bundle on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: NightPDF-test-output
+          path: |
+            ~/Library/Developer/Xcode/DerivedData/**/Logs/Test/*.xcresult
+          if-no-files-found: ignore
+
