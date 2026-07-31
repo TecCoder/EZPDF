@@ -19,10 +19,12 @@ struct ReaderView: View {
     @State private var searchResults: [PDFSelection] = []
     @State private var activeSearchIndex = 0
     @State private var pdfViewReference: PDFView?
+    @State private var currentReadingLocation: PDFReadingLocation?
 
     init(document: LibraryDocument) {
         _document = State(initialValue: document)
         _currentPage = State(initialValue: document.lastPageIndex)
+        _currentReadingLocation = State(initialValue: document.readingLocation)
     }
 
     var body: some View {
@@ -36,6 +38,7 @@ struct ReaderView: View {
                     initialPagePoint: document.lastPagePoint,
                     initialScaleFactor: document.lastScale,
                     currentPageIndex: $currentPage,
+                    readingLocation: $currentReadingLocation,
                     totalPages: $totalPages,
                     pdfViewReference: $pdfViewReference
                 )
@@ -60,7 +63,10 @@ struct ReaderView: View {
                         title: document.displayName,
                         searchText: $searchText,
                         showSearch: $showSearch,
-                        onBack: { dismiss() },
+                        onBack: {
+                            persistCurrentReadingLocation()
+                            dismiss()
+                        },
                         onSearch: runSearch
                     )
                     Spacer()
@@ -91,6 +97,13 @@ struct ReaderView: View {
         .onChange(of: currentPage) { newValue in
             document.lastPageIndex = max(0, newValue)
             libraryStore.markOpened(document, pageIndex: newValue)
+        }
+        .onChange(of: currentReadingLocation) { newValue in
+            guard let newValue else { return }
+            document.lastPageIndex = newValue.pageIndex
+            document.lastPagePointX = Double(newValue.point.x)
+            document.lastPagePointY = Double(newValue.point.y)
+            document.lastScaleFactor = Double(newValue.scaleFactor)
         }
         .onChange(of: progressStore.keepScreenAwake) { newValue in
             UIApplication.shared.isIdleTimerDisabled = newValue
@@ -218,6 +231,21 @@ struct ReaderView: View {
     }
 
     private func persistCurrentReadingLocation() {
+        if let currentReadingLocation {
+            document.lastPageIndex = currentReadingLocation.pageIndex
+            document.lastPagePointX = Double(currentReadingLocation.point.x)
+            document.lastPagePointY = Double(currentReadingLocation.point.y)
+            document.lastScaleFactor = Double(currentReadingLocation.scaleFactor)
+            libraryStore.markOpened(
+                document,
+                pageIndex: currentReadingLocation.pageIndex,
+                pagePointX: document.lastPagePointX,
+                pagePointY: document.lastPagePointY,
+                scaleFactor: document.lastScaleFactor
+            )
+            return
+        }
+
         guard let pdfView = pdfViewReference,
               let destination = pdfView.currentDestination,
               let page = destination.page,
@@ -250,6 +278,15 @@ private extension LibraryDocument {
     var lastScale: CGFloat? {
         guard let lastScaleFactor else { return nil }
         return CGFloat(lastScaleFactor)
+    }
+
+    var readingLocation: PDFReadingLocation? {
+        guard let lastPagePoint else { return nil }
+        return PDFReadingLocation(
+            pageIndex: lastPageIndex,
+            point: lastPagePoint,
+            scaleFactor: lastScale ?? 1
+        )
     }
 }
 

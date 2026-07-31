@@ -9,5 +9,7 @@
 - Added Original, Night, and Soft Night reading appearances.
 - Changed night rendering to SwiftUI pixel inversion over the PDF view after device testing showed PDFKit layer filters were not reliable.
 - Added restoration of exact reading destination and zoom when reopening a PDF.
+- Kept the active PDF position alive while changing reading modes.
+- Added the first NightPDF app icon.
 - Added GitHub Actions CI and manual IPA/archive build workflows.
 - Added Windows to iPad installation documentation.

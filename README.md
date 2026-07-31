@@ -1,6 +1,6 @@
 # NightPDF
 
-NightPDF is a native iPadOS PDF reader focused on night reading. It imports PDFs from Files, stores local copies in the app container, remembers page, scroll position, and zoom, and applies a visual-only night filter without modifying the original document.
+NightPDF is a native iPadOS PDF reader focused on night reading. It imports PDFs from Files, stores local copies in the app container, remembers page, scroll position, and zoom, and applies a visual-only night filter without modifying the original document. The reader keeps the current PDF position stable while toggling reading modes.
 
 ## Requirements
 
