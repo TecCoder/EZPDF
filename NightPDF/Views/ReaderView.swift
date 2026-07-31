@@ -33,12 +33,16 @@ struct ReaderView: View {
                 PDFKitView(
                     document: pdfDocument,
                     initialPageIndex: document.lastPageIndex,
-                    appearance: progressStore.appearance,
-                    intensity: progressStore.softNightIntensity,
+                    initialPagePoint: document.lastPagePoint,
+                    initialScaleFactor: document.lastScale,
                     currentPageIndex: $currentPage,
                     totalPages: $totalPages,
                     pdfViewReference: $pdfViewReference
                 )
+                .modifier(PDFReadingAppearanceModifier(
+                    appearance: progressStore.appearance,
+                    intensity: progressStore.softNightIntensity
+                ))
                 .ignoresSafeArea()
                 .onTapGesture {
                     withAnimation(.easeInOut(duration: 0.18)) {
@@ -81,7 +85,7 @@ struct ReaderView: View {
             UIApplication.shared.isIdleTimerDisabled = progressStore.keepScreenAwake
         }
         .onDisappear {
-            libraryStore.markOpened(document, pageIndex: currentPage)
+            persistCurrentReadingLocation()
             UIApplication.shared.isIdleTimerDisabled = false
         }
         .onChange(of: currentPage) { newValue in
@@ -211,5 +215,68 @@ struct ReaderView: View {
         let selection = searchResults[activeSearchIndex]
         pdfView.setCurrentSelection(selection, animate: true)
         pdfView.go(to: selection)
+    }
+
+    private func persistCurrentReadingLocation() {
+        guard let pdfView = pdfViewReference,
+              let destination = pdfView.currentDestination,
+              let page = destination.page,
+              let pdfDocument = pdfView.document else {
+            libraryStore.markOpened(document, pageIndex: currentPage)
+            return
+        }
+
+        let pageIndex = max(0, pdfDocument.index(for: page))
+        document.lastPageIndex = pageIndex
+        document.lastPagePointX = Double(destination.point.x)
+        document.lastPagePointY = Double(destination.point.y)
+        document.lastScaleFactor = Double(pdfView.scaleFactor)
+        libraryStore.markOpened(
+            document,
+            pageIndex: pageIndex,
+            pagePointX: document.lastPagePointX,
+            pagePointY: document.lastPagePointY,
+            scaleFactor: document.lastScaleFactor
+        )
+    }
+}
+
+private extension LibraryDocument {
+    var lastPagePoint: CGPoint? {
+        guard let lastPagePointX, let lastPagePointY else { return nil }
+        return CGPoint(x: lastPagePointX, y: lastPagePointY)
+    }
+
+    var lastScale: CGFloat? {
+        guard let lastScaleFactor else { return nil }
+        return CGFloat(lastScaleFactor)
+    }
+}
+
+private struct PDFReadingAppearanceModifier: ViewModifier {
+    let appearance: ReadingAppearance
+    let intensity: Double
+
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        switch appearance {
+        case .original:
+            content
+        case .night:
+            content
+                .colorInvert()
+                .background(Color.black)
+        case .softNight:
+            content
+                .colorInvert()
+                .brightness(-0.18 * clampedIntensity)
+                .contrast(1.0 - (0.25 * clampedIntensity))
+                .overlay(Color.black.opacity(0.18 * clampedIntensity).allowsHitTesting(false))
+                .background(Color.black)
+        }
+    }
+
+    private var clampedIntensity: Double {
+        min(max(intensity, 0), 1)
     }
 }

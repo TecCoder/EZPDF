@@ -1,6 +1,6 @@
 # NightPDF
 
-NightPDF is a native iPadOS PDF reader focused on night reading. It imports PDFs from Files, stores local copies in the app container, remembers progress, and applies a visual-only night filter through PDFKit without modifying the original document.
+NightPDF is a native iPadOS PDF reader focused on night reading. It imports PDFs from Files, stores local copies in the app container, remembers page, scroll position, and zoom, and applies a visual-only night filter without modifying the original document.
 
 ## Requirements
 
@@ -15,7 +15,7 @@ NightPDF is a native iPadOS PDF reader focused on night reading. It imports PDFs
 - `Views`: SwiftUI screens and the `PDFView` bridge.
 - `NightPDFTests`: unit tests for persistence and library behavior.
 
-The PDF is rendered with `PDFKit.PDFView` inside `UIViewRepresentable`. Night mode is applied to the PDF document view with Core Image layer filters, keeping SwiftUI controls outside the filter.
+The PDF is rendered with `PDFKit.PDFView` inside `UIViewRepresentable`. Night mode is applied as a SwiftUI visual effect over the PDF view only, keeping SwiftUI controls outside the filter.
 
 ## Build Locally On macOS
 
@@ -59,6 +59,5 @@ A free Apple Account signature normally expires after about 7 days and must be r
 ## Known Night Mode Limits
 
 - The MVP uses full visual inversion, so photos and colored images may appear as negatives.
-- `layer.compositingFilter` is intentionally isolated to the `PDFView.documentView`; if future iPadOS versions change PDFKit internals, this renderer is the single place to adapt.
+- The visual effect is intentionally applied only to the `PDFKitView`, not the surrounding reader controls.
 - The soft night mode adds a dimming overlay after inversion. It is a comfort adjustment, not semantic recoloring.
-

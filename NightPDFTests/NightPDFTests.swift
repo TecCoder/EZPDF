@@ -42,6 +42,20 @@ final class NightPDFTests: XCTestCase {
         XCTAssertEqual(store.documents.first?.lastPageIndex, 12)
     }
 
+    func testProgressStoresPreciseReadingLocation() {
+        let store = DocumentLibraryStore(userDefaults: defaults)
+        let document = LibraryDocument(displayName: "Book.pdf", localFileName: "one.pdf")
+        store.add(document)
+
+        store.markOpened(document, pageIndex: 7, pagePointX: 14.5, pagePointY: 300.25, scaleFactor: 1.7)
+
+        let saved = store.documents.first
+        XCTAssertEqual(saved?.lastPageIndex, 7)
+        XCTAssertEqual(saved?.lastPagePointX, 14.5)
+        XCTAssertEqual(saved?.lastPagePointY, 300.25)
+        XCTAssertEqual(saved?.lastScaleFactor, 1.7)
+    }
+
     func testDuplicateIdentifiersAreReplaced() {
         let store = DocumentLibraryStore(userDefaults: defaults)
         let id = UUID()

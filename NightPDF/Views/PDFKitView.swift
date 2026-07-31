@@ -4,8 +4,8 @@ import SwiftUI
 struct PDFKitView: UIViewRepresentable {
     let document: PDFDocument
     let initialPageIndex: Int
-    let appearance: ReadingAppearance
-    let intensity: Double
+    let initialPagePoint: CGPoint?
+    let initialScaleFactor: CGFloat?
     @Binding var currentPageIndex: Int
     @Binding var totalPages: Int
     @Binding var pdfViewReference: PDFView?
@@ -27,7 +27,6 @@ struct PDFKitView: UIViewRepresentable {
         DispatchQueue.main.async {
             pdfViewReference = pdfView
             totalPages = document.pageCount
-            context.coordinator.applyAppearance()
         }
         return pdfView
     }
@@ -42,20 +41,28 @@ struct PDFKitView: UIViewRepresentable {
         DispatchQueue.main.async {
             pdfViewReference = pdfView
             totalPages = document.pageCount
-            context.coordinator.applyAppearance()
         }
     }
 
     private func restoreInitialPage(in pdfView: PDFView) {
         let boundedIndex = min(max(initialPageIndex, 0), max(document.pageCount - 1, 0))
         if let page = document.page(at: boundedIndex) {
-            pdfView.go(to: page)
+            if let initialPagePoint {
+                pdfView.go(to: PDFDestination(page: page, at: initialPagePoint))
+            } else {
+                pdfView.go(to: page)
+            }
+            if let initialScaleFactor {
+                pdfView.scaleFactor = min(
+                    max(initialScaleFactor, pdfView.minScaleFactor),
+                    pdfView.maxScaleFactor
+                )
+            }
         }
     }
 
     final class Coordinator: NSObject, PDFViewDelegate {
         var parent: PDFKitView
-        private let renderer = PDFNightModeRenderer()
         private weak var pdfView: PDFView?
         private var observer: NSObjectProtocol?
 
@@ -83,20 +90,9 @@ struct PDFKitView: UIViewRepresentable {
             }
         }
 
-        func applyAppearance() {
-            guard let pdfView else { return }
-            renderer.apply(appearance: parent.appearance, intensity: parent.intensity, to: pdfView)
-        }
-
-        func pdfViewLayoutChanged(_ sender: PDFView) {
-            applyAppearance()
-        }
-
         private func pageChanged(_ pdfView: PDFView?) {
             guard let pdfView, let page = pdfView.currentPage, let document = pdfView.document else { return }
             parent.currentPageIndex = document.index(for: page)
-            applyAppearance()
         }
     }
 }
-

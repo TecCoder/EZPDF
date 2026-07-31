@@ -53,11 +53,24 @@ final class DocumentLibraryStore: ObservableObject {
         return url
     }
 
-    func markOpened(_ document: LibraryDocument, pageIndex: Int? = nil) {
+    func markOpened(
+        _ document: LibraryDocument,
+        pageIndex: Int? = nil,
+        pagePointX: Double? = nil,
+        pagePointY: Double? = nil,
+        scaleFactor: Double? = nil
+    ) {
         guard let index = documents.firstIndex(where: { $0.id == document.id }) else { return }
         documents[index].lastOpenedAt = Date()
         if let pageIndex {
             documents[index].lastPageIndex = max(0, pageIndex)
+        }
+        if let pagePointX, let pagePointY {
+            documents[index].lastPagePointX = pagePointX
+            documents[index].lastPagePointY = pagePointY
+        }
+        if let scaleFactor {
+            documents[index].lastScaleFactor = scaleFactor
         }
         let updated = documents[index]
         documents.sort { $0.lastOpenedAt > $1.lastOpenedAt }
@@ -82,4 +95,3 @@ final class DocumentLibraryStore: ObservableObject {
         userDefaults.set(lastOpenedDocumentID?.uuidString, forKey: lastDocumentKey)
     }
 }
-
