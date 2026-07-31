@@ -24,6 +24,8 @@ jobs:
             -destination 'generic/platform=iOS' \
             -archivePath "$PWD/build/NightPDF.xcarchive" \
             CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
             SKIP_INSTALL=NO \
             archive
 
@@ -32,10 +34,12 @@ jobs:
           set -euo pipefail
           mkdir -p NightPDF-build/Payload
           APP_PATH="build/NightPDF.xcarchive/Products/Applications/NightPDF.app"
-          if [ -d "$APP_PATH" ]; then
-            cp -R "$APP_PATH" NightPDF-build/Payload/
-            (cd NightPDF-build && zip -qry NightPDF.ipa Payload)
+          if [ ! -d "$APP_PATH" ]; then
+            echo "Expected app not found at $APP_PATH"
+            exit 1
           fi
+          cp -R "$APP_PATH" NightPDF-build/Payload/
+          (cd NightPDF-build && zip -qry NightPDF.ipa Payload)
           ditto -c -k --keepParent build/NightPDF.xcarchive NightPDF-build/NightPDF.xcarchive.zip
           {
             echo "commit=${GITHUB_SHA}"
@@ -46,11 +50,10 @@ jobs:
             echo "signing=unsigned; sign on Windows with AltStore Classic or Sideloadly"
             echo "install=download this artifact, then sign and install locally on the target iPad"
           } > NightPDF-build/build-info.txt
-          (cd NightPDF-build && shasum -a 256 * > checksums.txt)
+          (cd NightPDF-build && find . -maxdepth 1 -type f ! -name checksums.txt -exec shasum -a 256 {} \; > checksums.txt)
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: NightPDF-build
           path: NightPDF-build
-
